@@ -18,7 +18,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
       Navigator.pushReplacementNamed(context, '/home_screen');
     });
   }
-
+//launch
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
