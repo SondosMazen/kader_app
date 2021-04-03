@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kader_app/api/api_controller.dart';
+import 'package:kader_app/locale/AppLocalizations.dart';
 import 'package:kader_app/main.dart';
 import 'package:kader_app/models/result.dart';
 import 'package:kader_app/utlies/app_colors.dart';
@@ -10,6 +11,9 @@ import 'package:url_launcher/url_launcher.dart';
 void main() => runApp(MainApp());
 
 class DetailsNewsScreen extends StatefulWidget {
+  final Result news;
+
+  DetailsNewsScreen({Key key, @required this.news}) : super(key: key);
   @override
   _DetailsNewsScreenState createState() => _DetailsNewsScreenState();
 
@@ -17,8 +21,8 @@ class DetailsNewsScreen extends StatefulWidget {
 
 class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Future<List<Result>> _resultListFuture;
-  List<Result> _result = [];
+
+  Result news;
   // final Result result;
   //
   // _DetailsNewsScreenState(this.result);
@@ -28,7 +32,7 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
     // TODO: implement initState
     super.initState();
    // _resultListFuture = ApiController().indexPost();
-
+    news = widget.news;
   }
 
   @override
@@ -47,13 +51,14 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
           backgroundColor: AppColors.MAIN_COLOR,
           title: Center(
               child: Text(
-            "تفاصيل الخبر",
+                AppLocalizations.of(context).translate("newsDetails"),
           )),
           actions: [
       IconButton(
           icon: Icon(Icons.arrow_forward),
         onPressed: () {
-          Navigator.pushReplacementNamed(context, '/home_screen');
+          Navigator.pop(context);
+          // Navigator.pushReplacementNamed(context, '/news');
           //Navigator.pop(context, true);
         }
     ),
@@ -74,7 +79,7 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "وزارة الصحة تكرم قسم العلاقات العامة بالمستشفى الاندونيسي",
+                news.postTitle,
                 style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.w500,
@@ -87,18 +92,7 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
               Row(
                 children: [
                   Text(
-                    "18-02-2021",
-                    style: TextStyle(
-                      color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
-                      fontWeight: FontWeight.w400,
-                      fontSize: SizeConfig.scaleTextFont(14),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.scaleWidth(5),
-                  ),
-                  Text(
-                    "08:55:27",
+                    news.postDate,
                     style: TextStyle(
                       color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
                       fontWeight: FontWeight.w400,
@@ -114,42 +108,19 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
                 margin: EdgeInsetsDirectional.zero,
                 height: SizeConfig.scaleHeight(215),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('images/home.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
+                child:
+                  Image.network(
+                    news.imageUrl),
               ),
               SizedBox(
                 height: SizeConfig.scaleHeight(16),
               ),
               Text(
-                "dfgdfdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgd"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfg"
-                "dfgdfdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgd"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfg"
-                "dfgdfdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgd"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfg"
-                "dfgdfdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgd"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg"
-                "dfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfgfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfgdfggdfgdfg",
+                news.postContent,
                 style: TextStyle(
-                  color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
-                  fontWeight: FontWeight.w400,
-                  fontSize: SizeConfig.scaleTextFont(14),
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: SizeConfig.scaleTextFont(16),
                 ),
               ),
               SizedBox(

@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController _scrollController = ScrollController();
-
+  int currentIndex;
   Future<List<Result>> _resultListFuture;
   List<Result> _result = [];
   // final List<Result> result;
@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _resultListFuture = ApiController().indexPost();
+    _resultListFuture = ApiController().indexPost();
     // _resultListFuture = ApiBuilder.initialize.url(ApiSettings.API_POST)
     // .requestType(RequestType.GET)
     // .performListRequest<Result>();
@@ -58,10 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppSearchTextFeild(),
-          SizedBox(
-            height: SizeConfig.scaleHeight(16),
-          ),
+          // AppSearchTextFeild(),
+          // SizedBox(
+          //   height: SizeConfig.scaleHeight(16),
+          // ),
           Container(
             width: double.infinity,
             height: SizeConfig.scaleHeight(215),
@@ -94,27 +94,33 @@ class _HomeScreenState extends State<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: _result.length,
                               itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
 
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => DetailsNewsScreen(result: _result[index]),
-                                    //   ),
-                                    // );
-                                    Navigator.pushNamed(
-                                        context, '/details_of_the_news_screen');
-                                    // Navigator.pushReplacementNamed(
-                                    //     context, '/details_of_the_news_screen');
-                                  },
+                                currentIndex = index;
+                                return GestureDetector(
+                                  // onTap: () {
+                                  //
+                                  //   // Navigator.push(
+                                  //   //   context,
+                                  //   //   MaterialPageRoute(
+                                  //   //     builder: (context) => DetailsNewsScreen(result: _result[index]),
+                                  //   //   ),
+                                  //   // );
+                                  //   Navigator.push(
+                                  //       context,
+                                  //       MaterialPageRoute (
+                                  //         builder: (context) => DetailsNewsScreen(news: _result[index]),
+                                  //       )
+                                  //   );
+                                  //   // Navigator.pushReplacementNamed(
+                                  //   //     context, '/details_of_the_news_screen');
+                                  // },
                                   child: Stack(
                                     children: [
                                       Container(
                                         height: SizeConfig.scaleHeight(215),
                                         child: Image.network(
                                             _result[index].imageUrl),
-                                        decoration: BoxDecoration(
+                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(16),
                                         ),
                                       ),
@@ -159,43 +165,53 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                     children: [
-                                                      Container(
-                                                        height: SizeConfig
-                                                            .scaleHeight(6),
-                                                        width:
-                                                        SizeConfig.scaleWidth(
-                                                            6),
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                          BorderRadius
-                                                              .circular(16),
-                                                          color: AppColors
-                                                              .DOTS_HORIZANTAL_COLOR,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width:
-                                                        SizeConfig.scaleWidth(
-                                                            4),
-                                                      ),
-                                                      Container(
-                                                        height: SizeConfig
-                                                            .scaleHeight(6),
-                                                        width:
-                                                        SizeConfig.scaleWidth(
-                                                            6),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                            BorderRadius
-                                                                .circular(16),
-                                                            color: Colors.white
-                                                                .withOpacity(
-                                                                0.47)),
-                                                      ),
-                                                      SizedBox(
-                                                        height: SizeConfig
-                                                            .scaleHeight(7),
-                                                      ),
+                                                      for(int i = 0; i < _result.length; i++)
+                                                        Container(
+                                                            height: 10, width: 10,
+                                                            margin: EdgeInsetsDirectional.only(end:SizeConfig.scaleWidth(5)),
+                                                            decoration: BoxDecoration(
+                                                                color: i == currentIndex ? Colors.white : Colors.grey,
+                                                                borderRadius: BorderRadius.circular(5),
+                                                              
+                                                            )
+                                                        )
+                                                      // Container(
+                                                      //   height: SizeConfig
+                                                      //       .scaleHeight(6),
+                                                      //   width:
+                                                      //   SizeConfig.scaleWidth(
+                                                      //       6),
+                                                      //   decoration: BoxDecoration(
+                                                      //     borderRadius:
+                                                      //     BorderRadius
+                                                      //         .circular(16),
+                                                      //     color: AppColors
+                                                      //         .DOTS_HORIZANTAL_COLOR,
+                                                      //   ),
+                                                      // ),
+                                                      // SizedBox(
+                                                      //   width:
+                                                      //   SizeConfig.scaleWidth(
+                                                      //       4),
+                                                      // ),
+                                                      // Container(
+                                                      //   height: SizeConfig
+                                                      //       .scaleHeight(6),
+                                                      //   width:
+                                                      //   SizeConfig.scaleWidth(
+                                                      //       6),
+                                                      //   decoration: BoxDecoration(
+                                                      //       borderRadius:
+                                                      //       BorderRadius
+                                                      //           .circular(16),
+                                                      //       color: Colors.white
+                                                      //           .withOpacity(
+                                                      //           0.47)),
+                                                      // ),
+                                                      // SizedBox(
+                                                      //   height: SizeConfig
+                                                      //       .scaleHeight(7),
+                                                      // ),
                                                     ],
                                                   ),
                                                 ),
@@ -233,71 +249,67 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             children: [
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, AdministrativeServicesScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, AdministrativeServicesScreen(),"AdministrativeServices"),
                 image: Image.asset(
                   'images/group_232.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                text: "خدمات إدارية",
-              //  text: AppLocalizations.of(context).translate("additionalServices"),
+                text: AppLocalizations.of(context).translate("AdministrativeServices"),
 
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, CustodyScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, CustodyScreen(),"Custody"),
                 image: Image.asset(
                   'images/path_194.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                //text: "العهدة",
-                  text: AppLocalizations.of(context).translate("Custody"),
-
-
+                 text: AppLocalizations.of(context).translate("Custody"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, NewsScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, NewsScreen(),"News"),
                 image: Image.asset(
                   'images/group_225.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                text: "الأخبار",
+                text: AppLocalizations.of(context).translate("News"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, ProtocolsScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, ProtocolsScreen(),"Protocols"),
                 image: Image.asset(
                   'images/group_225.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                text: "بروتوكولات",
+                text: AppLocalizations.of(context).translate("Protocols"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, ShiftsScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, ShiftsScreen(),"Shifts"),
                 image: Image.asset(
                   'images/noun_time_3182552.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                text: "الورديات",
+                text: AppLocalizations.of(context).translate("Shifts"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, PermanencsScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, PermanencsScreen(),"Permanence"),
                 image: Image.asset(
                   'images/group_235.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
                 ),
-                text: "الدوام",
+                text: AppLocalizations.of(context).translate("Permanence"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
               AppStackHome(
-                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, AdditionalServicesScreen()),
+                changeScreen:()=> HomeBaseScreen.changeBaseWidget(context, AdditionalServicesScreen(),"AdditionalServices"),
                 image: Image.asset(
                   'images/noun_more_1751209.png',
                   color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
                 ),
-                text: "خدمات إضافية",
+                text: AppLocalizations.of(context).translate("AdditionalServices"),
                 color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
               ),
 

@@ -18,11 +18,15 @@ class Result {
     id = json['id'];
     postDate = json['post_date'];
     guid = json['guid'];
+    // .replaceAll(new RegExp("\""),"'")
     postTitle = json['post_title'];
     postContent = json['post_content'];
-    imageUrl = json['image_url'];
+    imageUrl = json['image_url'].replaceAll(new RegExp('http'), 'https');
   }
 
+  static List<Result> parseList(List<dynamic> list) {
+    return list.map((i) => Result.fromJson(i)).toList();
+  }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;

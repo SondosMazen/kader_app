@@ -8,16 +8,14 @@ import 'package:kader_app/utlies/size_config.dart';
 class DrawerScreen extends StatefulWidget {
   @override
   _DrawerScreenState createState() => _DrawerScreenState();
-
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
-
   var _lang = ['العربية', 'English'];
   var _currentItemSelected = 'English';
+
   @override
   Widget build(BuildContext context) {
-
     return Drawer(
       child: ListView(
         children: [
@@ -40,6 +38,54 @@ class _DrawerScreenState extends State<DrawerScreen> {
               color: AppColors.MAIN_COLOR,
             ),
           ),
+          ExpansionTile(
+              title: Text(
+                AppLocalizations.of(context).translate("Language"),
+              ),
+              children: [
+                GestureDetector(
+                  child: Text(
+                    AppLocalizations.of(context).translate("Arabic"),
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () {
+                    MainApp.setLocale(context, Locale("en"));
+                    UserPreferences.instance.changeLanguage(("ar"));
+                    MainApp.setLocale(context, Locale("ar"));
+                    Navigator.pop(context);
+                  },
+                ),
+                GestureDetector(
+                  child: Text(
+                    AppLocalizations.of(context).translate("English"),
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onTap: () {
+                    MainApp.setLocale(context, Locale("en"));
+                    UserPreferences.instance.changeLanguage(("en"));
+                    MainApp.setLocale(context, Locale("en"));
+                    Navigator.pop(context);
+                  },
+                ),
+              ]),
+          //     ExpansionTile(
+          //           key: PageStorageKey(this.widget.headerTitle),
+          //           title: Container(
+          //               width: double.infinity,
+          //
+          //               child: Text("Header",style: TextStyle(fontSize: 18),),
+          //               trailing: Icon(Icons.arrow_drop_down,size: 32,color: Colors.pink,),
+          //               // onExpansionChanged: (value){
+          //               //   setState(() {
+          //               //     isExpand = value;
+          //               //   });
+          //               // },
+          //               children: [
+          //                 Text("Child 1",style: TextStyle(fontSize: 18),),
+          //                 Text("Child 2",style: TextStyle(fontSize: 18),),
+          //               ]
+          //           )
+          //       ),
           ListTile(
             onTap: () {
               // DropdownButton<String>(
@@ -107,9 +153,10 @@ class _DrawerScreenState extends State<DrawerScreen> {
       ),
     );
   }
- void _onDropDownItemSelected(String newValueSelected){
-   setState((){
-     this._currentItemSelected = newValueSelected;
-   });
- }
+
+  void _onDropDownItemSelected(String newValueSelected) {
+    setState(() {
+      this._currentItemSelected = newValueSelected;
+    });
+  }
 }

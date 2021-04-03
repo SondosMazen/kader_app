@@ -1,14 +1,21 @@
 {
   "Home": "Home",
   "Language": "Language",
+  "Arabic": "Arabic",
+  "English": "English",
   "Logout": "Logout",
   "search": "search",
   "Protocols": "Protocols",
   "Custody": "Custody",
   "Shifts": "Shifts",
   "Permanence": "Permanence",
+  "newsDetails": "News Details",
   "AdministrativeServices": "Administrative Services",
-  "additionalServices": "additional Services",
-  "news" : "News"
+  "AdditionalServices": "additional Services",
+  "News" : "News",
+  "ApplyForLeave": "Apply for leave",
+  "HolidaysDisplay": "Holidays display",
+  "AcknowledgmentToReturn": "Acknowledgment to return",
+  "StaffOfThePalestinianMinistryOfHealth": "Staff of the Palestinian Ministry of Health"
 
 }

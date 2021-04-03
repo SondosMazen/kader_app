@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:kader_app/utlies/app_colors.dart';
 import 'package:kader_app/utlies/size_config.dart';
 
-
 class AppSearchTextFeild extends StatelessWidget {
   final String hint;
   TextEditingController _searchTextController;
 
   AppSearchTextFeild({this.hint = "بحث"});
+
+  @override
+  void initState(){
+    _searchTextController = TextEditingController();
+  }
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +24,7 @@ class AppSearchTextFeild extends StatelessWidget {
       height: SizeConfig.scaleHeight(36),
       child: TextField(
         controller: _searchTextController,
-       // onChanged: searchOperation,
+        // onChanged: searchOperation,
         style: TextStyle(
           fontSize: SizeConfig.scaleTextFont(16),
           fontFamily: 'Tajawal',
@@ -24,7 +32,6 @@ class AppSearchTextFeild extends StatelessWidget {
           color: AppColors.HINT_TEXTFEILD_COLOR,
         ),
         decoration: InputDecoration(
-
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(26),
           ),
@@ -46,7 +53,6 @@ class AppSearchTextFeild extends StatelessWidget {
             fontFamily: 'Tajawal',
             color: AppColors.HINT_TEXTFEILD_COLOR,
             fontWeight: FontWeight.w500,
-
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(26),
@@ -58,7 +64,6 @@ class AppSearchTextFeild extends StatelessWidget {
           //getBorder(AppColors.HINT_TEXTFEILD_COLOR),
           focusedBorder: getBorder(),
         ),
-
       ),
     );
   }
@@ -72,24 +77,24 @@ class AppSearchTextFeild extends StatelessWidget {
       ),
     );
   }
-  // void searchOperation(String searchText){
-  //   searchResult.clear();
-  //   if(_isSearching != null){
-  //     for(int i=0; i < _list.length; i++){
-  //       String data = _list[i];
-  //       if(data.toLowerCase().contains(searchText.toLowerCase())){
-  //         searchResult.add(data);
-  //       }
-  //     }
-  //   }
-  // }
-  // Widget _editTitleTextField() {  if (_isEditingText)    return Center(
-  //   child: TextField(        onSubmitted: (newValue){          setState(() {
-  //     initialText = newValue;            _isEditingText =false;          });        },
-  //     autofocus: true,        controller: _editingController,      ),    );  return InkWell(
-  //     onTap: () {
-  //   setState(() {
-  //     _isEditingText = true;      });    },
-  //   child: Text(  initialText,  style: TextStyle(
-  //   color: Colors.black,    fontSize: 18.0,  ), );}
+// void searchOperation(String searchText){
+//   searchResult.clear();
+//   if(_isSearching != null){
+//     for(int i=0; i < _list.length; i++){
+//       String data = _list[i];
+//       if(data.toLowerCase().contains(searchText.toLowerCase())){
+//         searchResult.add(data);
+//       }
+//     }
+//   }
+// }
+// Widget _editTitleTextField() {  if (_isEditingText)    return Center(
+//   child: TextField(        onSubmitted: (newValue){          setState(() {
+//     initialText = newValue;            _isEditingText =false;          });        },
+//     autofocus: true,        controller: _editingController,      ),    );  return InkWell(
+//     onTap: () {
+//   setState(() {
+//     _isEditingText = true;      });    },
+//   child: Text(  initialText,  style: TextStyle(
+//   color: Colors.black,    fontSize: 18.0,  ), );}
 }

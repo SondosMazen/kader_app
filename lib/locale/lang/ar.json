@@ -1,13 +1,21 @@
 {
   "Home": "أهلاً بك",
   "Language": "اللغة",
+  "Arabic": "العربية",
+  "English": "الانجليزية",
   "Logout": "تسجيل خروج",
   "search": "بحث",
   "Protocols": "بروتوكولات",
   "Custody": "العهدة",
   "Shifts": "الورديات",
   "Permanence": "الدوام",
+  "newsDetails": "تفاصيل الخبر",
   "AdministrativeServices": "خدمات إدارية",
-  "additionalServices": "خدمات إضافية",
-  "news" : "أخبار الوزارة"
+  "AdditionalServices": "خدمات إضافية",
+  "News" : "الأخبار",
+  "ApplyForLeave": "التقدم لطلب إجازة",
+  "HolidaysDisplay": "عرض الإجازات",
+  "AcknowledgmentToReturn": "إقرار العودة",
+  "StaffOfThePalestinianMinistryOfHealth": "موظقي وزارة الصحة الفلسطينية"
+
 }

@@ -13,9 +13,9 @@ void main() => runApp(MainApp());
 
 class HomeBaseScreen extends StatefulWidget {
 
-  static void changeBaseWidget(BuildContext context, Widget widget){
+  static void changeBaseWidget(BuildContext context, Widget widget, String title){
     _HomeBaseScreenState state = context.findAncestorStateOfType<_HomeBaseScreenState>();
-    state.changeBaseWidget(widget);
+    state.changeBaseWidget(widget,title);
   }
   @override
   _HomeBaseScreenState createState() => _HomeBaseScreenState();
@@ -27,9 +27,10 @@ class _HomeBaseScreenState extends State<HomeBaseScreen> {
    Widget _widget;
     String _texty = "";
 
-  void changeBaseWidget(Widget widget){
+  void changeBaseWidget(Widget widget,String title){
     setState(() {
       _widget = widget;
+      _texty = title;
     });
   }
 
@@ -38,6 +39,7 @@ class _HomeBaseScreenState extends State<HomeBaseScreen> {
     // TODO: implement initState
     super.initState();
     _widget = HomeScreen();
+    _texty = "Home";
   }
 
   @override
@@ -50,7 +52,7 @@ class _HomeBaseScreenState extends State<HomeBaseScreen> {
       drawerEnableOpenDragGesture: true,
       appBar: AppBarScreen(
       //  text:  AppLocalizations.of(context).translate(_texty),
-        text: AppLocalizations.of(context).translate("Home"),
+        text: AppLocalizations.of(context).translate(_texty)??"Home",
         openDrawer: (){
           // _scaffoldKey.currentState.openDrawer();
           openEndDrawer();

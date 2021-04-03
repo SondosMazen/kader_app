@@ -1,4 +1,5 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kader_app/locale/AppLocalizations.dart';
@@ -8,6 +9,7 @@ import 'package:kader_app/screens/custody_screen.dart';
 import 'package:kader_app/screens/details_of_the_news_screen.dart';
 import 'package:kader_app/screens/home_base.dart';
 import 'package:kader_app/screens/launch_screen.dart';
+import 'package:kader_app/screens/login_screen.dart';
 import 'package:kader_app/screens/news_screen.dart';
 import 'package:kader_app/screens/permanence_screen.dart';
 import 'package:kader_app/screens/pop_up_menu.dart';
@@ -85,7 +87,8 @@ class _MainAppState extends State<MainApp> {
         '/shifts_screen': (context) => ShiftsScreen(),
         '/news_screen': (context) => NewsScreen(),
         '/PopUpMenu': (context) => PopUpMenu(),
-        '/share': (context) => DemoApp(),
+        '/DemoApp': (context) => DemoApp(),
+        '/login_screen': (Context) => LoginScreen(),
 
       },
     );

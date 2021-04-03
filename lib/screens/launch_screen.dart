@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kader_app/locale/AppLocalizations.dart';
 import 'package:kader_app/prefs/user_perferences.dart';
 import 'package:kader_app/utlies/size_config.dart';
 
@@ -18,7 +19,6 @@ class _LaunchScreenState extends State<LaunchScreen> {
       Navigator.pushReplacementNamed(context, '/home_screen');
     });
   }
-//launch jjjjjjj
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -48,7 +48,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 width: SizeConfig.scaleWidth(164),
                 height: SizeConfig.scaleHeight(52),
                 child:  Text(
-                  "موظقي وزارة الصحة الفلسطينية",
+                  AppLocalizations.of(context).translate("StaffOfThePalestinianMinistryOfHealth"),
+                  //"موظقي وزارة الصحة الفلسطينية"
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white.withOpacity(0.9),
