@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "138549347792",
+    "project_id": "kader-a2591",
+    "storage_bucket": "kader-a2591.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138549347792:android:f674e5f471b45890ea65d5",
+        "android_client_info": {
+          "package_name": "com.moh.kader_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "138549347792-tfjp3f5hstsd1hr3sqdc5n0pab5csvv2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsTNJGM8r2q6C5cOw3p21_isjXrSWEUjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "138549347792-tfjp3f5hstsd1hr3sqdc5n0pab5csvv2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

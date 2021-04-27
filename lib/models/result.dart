@@ -1,3 +1,5 @@
+import 'package:kader_app/api/api_settings.dart';
+
 class Result {
   String id;
   String postDate;
@@ -15,13 +17,24 @@ class Result {
         this.imageUrl});
 
   Result.fromJson(Map<String, dynamic> json) {
+    print(json.toString());
     id = json['id'];
     postDate = json['post_date'];
     guid = json['guid'];
     // .replaceAll(new RegExp("\""),"'")
     postTitle = json['post_title'];
     postContent = json['post_content'];
-    imageUrl = json['image_url'].replaceAll(new RegExp('http'), 'https');
+    if(json['image_url'] == null){
+      imageUrl = ApiSettings.DEFAULT_IMG;
+    }
+    else {
+      if(json['image_url'].contains(".pdf")) {
+        imageUrl = ApiSettings.DEFAULT_IMG;
+      }
+      else{
+        imageUrl = json['image_url'].replaceAll(new RegExp('http'), 'https');
+      }
+    }
   }
 
   static List<Result> parseList(List<dynamic> list) {
