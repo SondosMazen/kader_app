@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kader_app/locale/AppLocalizations.dart';
 import 'package:kader_app/screens/additional_services%20_screen.dart';
 import 'package:kader_app/screens/administrative_services_screen.dart';
+import 'package:kader_app/screens/copy_details_news.dart';
 import 'package:kader_app/screens/custody_screen.dart';
 import 'package:kader_app/screens/details_of_the_news_screen.dart';
 import 'package:kader_app/screens/home_base.dart';
@@ -14,7 +15,6 @@ import 'package:kader_app/screens/news_screen.dart';
 import 'package:kader_app/screens/permanence_screen.dart';
 import 'package:kader_app/screens/pop_up_menu.dart';
 import 'package:kader_app/screens/protocols_screen.dart';
-import 'package:kader_app/screens/search_bar_screen.dart';
 import 'package:kader_app/screens/share.dart';
 import 'package:kader_app/screens/shifts_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -192,7 +192,6 @@ class _MainAppState extends State<MainApp> {
         '/PopUpMenu': (context) => PopUpMenu(),
         '/DemoApp': (context) => DemoApp(),
         '/login_screen': (Context) => LoginScreen(),
-        '/search_bar_screen': (Context) => SearchListExample(),
 
       },
     // title:'First app',
