@@ -14,6 +14,7 @@ import 'package:kader_app/screens/news_screen.dart';
 import 'package:kader_app/screens/permanence_screen.dart';
 import 'package:kader_app/screens/pop_up_menu.dart';
 import 'package:kader_app/screens/protocols_screen.dart';
+import 'package:kader_app/screens/search_bar_screen.dart';
 import 'package:kader_app/screens/share.dart';
 import 'package:kader_app/screens/shifts_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -191,6 +192,7 @@ class _MainAppState extends State<MainApp> {
         '/PopUpMenu': (context) => PopUpMenu(),
         '/DemoApp': (context) => DemoApp(),
         '/login_screen': (Context) => LoginScreen(),
+        '/search_bar_screen': (Context) => SearchListExample(),
 
       },
     // title:'First app',

@@ -46,8 +46,8 @@ class _LaunchScreenState extends State<LaunchScreen> {
                 height: SizeConfig.scaleHeight(33),
               ),
               Container(
-                width: SizeConfig.scaleWidth(164),
-                height: SizeConfig.scaleHeight(52),
+               // width: SizeConfig.scaleWidth(164),
+                //height: SizeConfig.scaleHeight(52),
                 child:  Text(
                   AppLocalizations.of(context).translate("StaffOfThePalestinianMinistryOfHealth"),
                   //"موظقي وزارة الصحة الفلسطينية"

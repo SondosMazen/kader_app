@@ -57,8 +57,8 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.arrow_forward),
           onPressed: () {
-             Navigator.pushReplacementNamed(context, '/home_screen');
-            // Navigator.pop(context, true);
+             // Navigator.pushReplacementNamed(context, '/home_screen');
+            Navigator.pop(context, true);
 
 
             // Navigator.pop(context);

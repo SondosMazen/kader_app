@@ -76,55 +76,60 @@ class _DetailsNewsScreenState extends State<DetailsNewsScreen> {
             color: AppColors.DOTS_HORIZANTAL_COLOR,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                news.postTitle,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: SizeConfig.scaleTextFont(20),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.scaleHeight(5),
-              ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    news.postDate,
+                    news.postTitle,
                     style: TextStyle(
-                      color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
-                      fontWeight: FontWeight.w400,
-                      fontSize: SizeConfig.scaleTextFont(14),
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SizeConfig.scaleTextFont(20),
                     ),
                   ),
+                  SizedBox(
+                    height: SizeConfig.scaleHeight(5),
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        news.postDate,
+                        style: TextStyle(
+                          color: AppColors.HINT_TEXT_STACK_HOME_COLOR,
+                          fontWeight: FontWeight.w400,
+                          fontSize: SizeConfig.scaleTextFont(14),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: SizeConfig.scaleHeight(16),
+                  ),
+                  Container(
+                    margin: EdgeInsetsDirectional.zero,
+                    height: SizeConfig.scaleHeight(215),
+                    width: double.infinity,
+                    child:
+                      Image.network(
+                        news.imageUrl),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.scaleHeight(16),
+                  ),
+                  Text(
+                    news.postContent,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w500,
+                      fontSize: SizeConfig.scaleTextFont(16),
+                    ),
+                  ),
+                  SizedBox(
+                    height: SizeConfig.scaleHeight(16),
+                  ),
+
                 ],
-              ),
-              SizedBox(
-                height: SizeConfig.scaleHeight(16),
-              ),
-              Container(
-                margin: EdgeInsetsDirectional.zero,
-                height: SizeConfig.scaleHeight(215),
-                width: double.infinity,
-                child:
-                  Image.network(
-                    news.imageUrl),
-              ),
-              SizedBox(
-                height: SizeConfig.scaleHeight(16),
-              ),
-              Text(
-                news.postContent,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: SizeConfig.scaleTextFont(16),
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.scaleHeight(16),
               ),
               GestureDetector(
                 onTap: () {
