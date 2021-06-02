@@ -19,7 +19,7 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
       ),
       body: WebView(
         initialUrl:
-            'https://ssoidp.gov.ps/sso-mobile/mobile_auth.php?do=login&client_id=<your_client_id>',
+            'https://ssoidp.gov.ps/sso/module.php/sspoauth2/mobile_authorize.php?client_id=KADER_APP_MOH',
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController controller) {
           _controller.complete(controller);
