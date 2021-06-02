@@ -5,7 +5,6 @@ import 'package:kader_app/utlies/size_config.dart';
 class AppSearchTextFeild extends StatelessWidget {
   final String hint;
   TextEditingController _searchTextController;
-
   AppSearchTextFeild({this.hint = "بحث"});
 
   @override
@@ -24,7 +23,10 @@ class AppSearchTextFeild extends StatelessWidget {
       height: SizeConfig.scaleHeight(36),
       child: TextField(
         controller: _searchTextController,
-        // onChanged: searchOperation,
+         onChanged: (text){
+         String searchText = _searchTextController.text;
+         print(searchText);
+         },
         style: TextStyle(
           fontSize: SizeConfig.scaleTextFont(16),
           fontFamily: 'Tajawal',

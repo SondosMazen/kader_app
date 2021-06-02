@@ -21,7 +21,6 @@ class NewsScreen extends StatefulWidget {
 
 class _NewsScreenState extends State<NewsScreen> {
   int currentIndex;
-
   bool _hasMore;
   int _pageNumber;
   bool _error;
@@ -30,16 +29,22 @@ class _NewsScreenState extends State<NewsScreen> {
   List<Result> _results;
   final int _nextPageThreshold = 5;
   final globalKey = new GlobalKey<ScaffoldState>();
-  final TextEditingController _controller = new TextEditingController();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Future<List<Result>> _resultListFuture;
-  List<Result> _result = [];
-  List searchresult = new List();
+
+  //List<Result> _result = [];
+  // List searchresult = List();
   List<String> imagePaths = [];
 
-  final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
-  var items = List<String>();
+  //final TextEditingController _controller = TextEditingController();
+  TextEditingController _searchTextController;
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -50,34 +55,12 @@ class _NewsScreenState extends State<NewsScreen> {
     _loading = true;
     _results = [];
     fetchResults();
-     _resultListFuture = ApiController().indexPost();
+    _resultListFuture = ApiController().indexPost();
+    _searchTextController = TextEditingController();
 
     bool _loaded = false;
     //var img = Image.network(src);
     var placeholder = AssetImage("images/noun_download_3465420.png");
-
-  }
-  void filterSearchResults(String query) {
-    List<String> dummySearchList = List<String>();
-    dummySearchList.addAll(duplicateItems);
-    if(query.isNotEmpty) {
-      List<String> dummyListData = List<String>();
-      dummySearchList.forEach((item) {
-        if(item.contains(query)) {
-          dummyListData.add(item);
-        }
-      });
-      setState(() {
-        items.clear();
-        items.addAll(dummyListData);
-      });
-      return;
-    } else {
-      setState(() {
-        items.clear();
-        items.addAll(duplicateItems);
-      });
-    }
   }
 
   @override
@@ -86,186 +69,245 @@ class _NewsScreenState extends State<NewsScreen> {
     return Scaffold(
       key: globalKey,
       appBar: AppBarScreen(
-        //  text:  AppLocalizations.of(context).translate(""),
-        text: AppLocalizations.of(context).translate("News")??"News",
-        openDrawer: (){
-          // _scaffoldKey.currentState.openDrawer();
+        text: AppLocalizations.of(context).translate("News") ?? "News",
+        openDrawer: () {
           _scaffoldKey.currentState.openDrawer();
         },
       ),
       body: Container(
-          padding: EdgeInsetsDirectional.only(
-            start: SizeConfig.scaleWidth(16),
-            end: SizeConfig.scaleWidth(16),
-            top: SizeConfig.scaleHeight(18),
-            // bottom: SizeConfig.scaleHeight(10),
-          ),
-          decoration: BoxDecoration(
-            color: AppColors.DOTS_HORIZANTAL_COLOR,
-          ),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // SizedBox(height: SizeConfig.scaleHeight(16),),
-            AppSearchTextFeild(
+        padding: EdgeInsetsDirectional.only(
+          start: SizeConfig.scaleWidth(16),
+          end: SizeConfig.scaleWidth(16),
+          top: SizeConfig.scaleHeight(18),
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.DOTS_HORIZANTAL_COLOR,
+        ),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // SizedBox(height: SizeConfig.scaleHeight(16),),
+          // AppSearchTextFeild(
+          //
+          // ),
+          // SearchListExample(),
+          TextField(
+            controller: _searchTextController,
+            onChanged: (text) {
+              String searchText = _searchTextController.text;
+              print(searchText);
+              setState(() {
+                String foundValue;
 
+                if (searchText == _results.contains("item")) {
+                  print("hhhhhh $searchText");
+                } else {
+                  print("$searchText");
+                }
+                // var result = _results.where((row) =>
+                //     (row["text"].contains(searchText)
+                //         ? foundValue = row["text"]
+                //         : foundValue = ""));
+                // if (_results.length >= 1) {
+                //   print("$foundValue");
+                // } else {
+                //   print("$foundValue");
+                // }
+              });
+            },
+            style: TextStyle(
+              fontSize: SizeConfig.scaleTextFont(16),
+              fontFamily: 'Tajawal',
+              fontWeight: FontWeight.w500,
+              color: AppColors.HINT_TEXTFEILD_COLOR,
             ),
-         //   SearchListExample(),
-            SizedBox(
-              height: SizeConfig.scaleHeight(16),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(26),
+              ),
+              contentPadding: EdgeInsetsDirectional.only(
+                start: SizeConfig.scaleWidth(20),
+              ),
+              suffixIcon: Icon(
+                Icons.search,
+                color: AppColors.HINT_TEXTFEILD_COLOR,
+              ),
+              // prefixIcon: Icon(
+              //   Icons.search,
+              //   color: AppColors.HINT_TEXTFEILD_COLOR,
+              // ),
+              hintText: AppLocalizations.of(context).translate("search"),
+              // prefixText: ' ',
+              hintStyle: TextStyle(
+                fontSize: SizeConfig.scaleTextFont(16),
+                fontFamily: 'Tajawal',
+                color: AppColors.HINT_TEXTFEILD_COLOR,
+                fontWeight: FontWeight.w500,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(26),
+                borderSide: BorderSide(
+                  color: AppColors.HINT_TEXTFEILD_COLOR,
+                  width: SizeConfig.scaleWidth(1),
+                ),
+              ),
+              //getBorder(AppColors.HINT_TEXTFEILD_COLOR),
+              focusedBorder: getBorder(),
             ),
-            Expanded(
-              child: getBody(),
-            ),
-          ])),
+          ),
+          SizedBox(
+            height: SizeConfig.scaleHeight(16),
+          ),
+          Expanded(
+            child: getBody(),
+          ),
+        ]),
+      ),
     );
   }
 
   Widget getBody() {
     if (_results.isEmpty) {
       if (_loading) {
-        return Center(
-            child: CircularProgressIndicator());
+        return Center(child: CircularProgressIndicator());
       } else if (_error) {
         return Center(
-            child: InkWell(
-          onTap: () {
-            setState(() {
-              _loading = true;
-              _error = false;
-              fetchResults();
-            });
-          },
-          child: Text("Error while loading photos, tap to try agin"),
-        ));
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                _loading = true;
+                _error = false;
+                fetchResults();
+              });
+            },
+            child: Text("Error while loading photos, tap to try agin"),
+          ),
+        );
       }
     } else {
       return _results.length != 0
           ? RefreshIndicator(
-        child: ListView.builder(
-            itemCount: _results.length + (_hasMore ? 1 : 0),
-            itemBuilder: (context, index) {
-              currentIndex = index;
+              child: ListView.builder(
+                  itemCount: _results.length + (_hasMore ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    currentIndex = index;
 
-              if (index == _results.length - _nextPageThreshold) {
-                fetchResults();
-              }
-              if (index == _results.length) {
-                if (_error) {
-                  return Center(
-                      child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        _loading = true;
-                        _error = false;
-                        fetchResults();
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsetsDirectional.only(
-                        start: SizeConfig.scaleWidth(16),
-                        end: SizeConfig.scaleWidth(16),
-                        top: SizeConfig.scaleHeight(18),
-                        bottom: SizeConfig.scaleHeight(18)
-                      ),
-                      child: Text("Error while loading photos, tap to try agin"),
-                    ),
-                  ));
-                } else {
-                  return Center(
-                      child: CircularProgressIndicator());
-                }
-              }
-              final Result photo = _results[index];
-              return GestureDetector(
-                onTap:(){
-                Navigator.push(
-                    context,
-                    MaterialPageRoute (
-                      builder: (context) => DetailsNewsScreen(news: _results[index]),
-                    )
-                );},
-                child: Card(
-                  child: Column(
-                    children:[
-                      // new Flexible(
-                      //     child: searchresult.length != 0 || _controller.text.isNotEmpty
-                      //         ? new ListView.builder(
-                      //       shrinkWrap: true,
-                      //       itemCount: searchresult.length,
-                      //       itemBuilder: (BuildContext context, int index) {
-                      //         String listData = searchresult[index];
-                      //         return new ListTile(
-                      //           title: new Text(listData.toString()),
-                      //         );
-                      //       },
-                      //     )
-                      //         : new ListView.builder(
-                      //       shrinkWrap: true,
-                      //       itemCount: _results.length,
-                      //       itemBuilder: (BuildContext context, int index) {
-                      //         Result listData = _results[index];
-                      //         return new ListTile(
-                      //           title: new Text(listData.toString()),
-                      //         );
-                      //       },
-                      //     ),
-                      // ),
-                      Row(
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        // mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: SizeConfig.scaleWidth(10),
+                    if (index == _results.length - _nextPageThreshold) {
+                      fetchResults();
+                    }
+                    if (index == _results.length) {
+                      if (_error) {
+                        return Center(
+                            child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _loading = true;
+                              _error = false;
+                              fetchResults();
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.only(
+                                start: SizeConfig.scaleWidth(16),
+                                end: SizeConfig.scaleWidth(16),
+                                top: SizeConfig.scaleHeight(18),
+                                bottom: SizeConfig.scaleHeight(18)),
+                            child: Text(
+                                "Error while loading photos, tap to try agin"),
                           ),
-                          Text(photo.postDate),
-                          Spacer(),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.white,
-                              onPrimary: Colors.white,
-                              elevation: 0,
+                        ));
+                      } else {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }
+                    final Result photo = _results[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsNewsScreen(news: _results[index]),
+                            ));
+                      },
+                      child: Card(
+                        child: Column(
+                          children: [
+                            // new Flexible(
+                            //     child: searchresult.length != 0 || _controller.text.isNotEmpty
+                            //         ? new ListView.builder(
+                            //       shrinkWrap: true,
+                            //       itemCount: searchresult.length,
+                            //       itemBuilder: (BuildContext context, int index) {
+                            //         String listData = searchresult[index];
+                            //         return new ListTile(
+                            //           title: new Text(listData.toString()),
+                            //         );
+                            //       },
+                            //     )
+                            //         : new ListView.builder(
+                            //       shrinkWrap: true,
+                            //       itemCount: _results.length,
+                            //       itemBuilder: (BuildContext context, int index) {
+                            //         Result listData = _results[index];
+                            //         return new ListTile(
+                            //           title: new Text(listData.toString()),
+                            //         );
+                            //       },
+                            //     ),
+                            // ),
+                            Row(
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              // mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                  width: SizeConfig.scaleWidth(10),
+                                ),
+                                Text(photo.postDate),
+                                Spacer(),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.white,
+                                    onPrimary: Colors.white,
+                                    elevation: 0,
+                                  ),
+                                  child: Icon(
+                                    Icons.share,
+                                    color: Colors.red.shade900,
+                                  ),
+                                  onPressed: () =>
+                                      _onShareWithEmptyOrigin(context),
+                                ),
+                              ],
                             ),
-                            child: Icon(
-                              Icons.share,
-                              color: Colors.red.shade900,
+
+                            Image.network(
+                              photo.imageUrl,
+                              // .contains(".pdf")
+                              // ? ApiSettings.DEFAULT_IMG
+                              // : photo.imageUrl ??
+                              // ApiSettings.DEFAULT_IMG,
+                              fit: BoxFit.fitWidth,
+                              width: double.infinity,
+                              height: SizeConfig.scaleHeight(170),
                             ),
-                            //Text('Share With Empty Origin'),
-                            onPressed: () => _onShareWithEmptyOrigin(context),
-                          ),
-                          // SizedBox(
-                          //   width: SizeConfig.scaleWidth(10),
-                          // ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Text(photo.postTitle,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                            ),
+                          ],
+                        ),
                       ),
-
-                      Image.network(
-                        photo.imageUrl,
-                            // .contains(".pdf")
-                            // ? ApiSettings.DEFAULT_IMG
-                            // : photo.imageUrl ??
-                            // ApiSettings.DEFAULT_IMG,
-                        fit: BoxFit.fitWidth,
-                        width: double.infinity,
-                        height: SizeConfig.scaleHeight(170),
-
-
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text(photo.postTitle,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
-        onRefresh: _getData,
-      ): Center(child: CircularProgressIndicator());
+                    );
+                  }),
+              onRefresh: _getData,
+            )
+          : Center(child: CircularProgressIndicator());
     }
     return Container();
   }
+
   Future<void> _getData() async {
     setState(() {
       _pageNumber = 0;
@@ -273,10 +315,11 @@ class _NewsScreenState extends State<NewsScreen> {
       fetchResults();
     });
   }
+
   Future<void> fetchResults() async {
     try {
-      final response = await http
-          .get(Uri.parse("https://www.moh.gov.ps/test/test.php?page=$_pageNumber"));
+      final response = await http.get(
+          Uri.parse("https://www.moh.gov.ps/test/test.php?page=$_pageNumber"));
       print("https://www.moh.gov.ps/test/test.php?page=$_pageNumber");
       // List<Results> fetchedPhotos = Results.parseList(jsonDecode(response.body));
       List<Result> fetchedPhotos =
@@ -294,7 +337,7 @@ class _NewsScreenState extends State<NewsScreen> {
         _hasMore = fetchedPhotos.length == _defaultPhotosPerPageCount;
         _loading = false;
         _pageNumber = _pageNumber + 1;
-        print("anas______" + _pageNumber.toString());
+        print("sondos______" + _pageNumber.toString());
         _results.addAll(fetchedPhotos);
       });
     } catch (e) {
@@ -314,6 +357,16 @@ class _NewsScreenState extends State<NewsScreen> {
 
   _onShareWithEmptyOrigin(BuildContext context) async {
     await Share.share("text");
+  }
+
+  OutlineInputBorder getBorder() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(26),
+      borderSide: BorderSide(
+        color: AppColors.HINT_TEXTFEILD_COLOR,
+        width: SizeConfig.scaleWidth(1),
+      ),
+    );
   }
 }
 
@@ -336,8 +389,6 @@ class Results {
   static List<Results> parseList(List<dynamic> list) {
     return list.map((i) => Results.fromJson(i)).toList();
   }
-
-
 }
 
 // Widget build(BuildContext context) {
@@ -494,7 +545,6 @@ class Results {
 //     ),
 //   );
 // }
-
 
 /*
  child: Container(

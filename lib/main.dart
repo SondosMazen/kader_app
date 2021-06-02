@@ -11,6 +11,7 @@ import 'package:kader_app/screens/details_of_the_news_screen.dart';
 import 'package:kader_app/screens/home_base.dart';
 import 'package:kader_app/screens/launch_screen.dart';
 import 'package:kader_app/screens/login_screen.dart';
+import 'package:kader_app/screens/login_webview_screen.dart';
 import 'package:kader_app/screens/news_screen.dart';
 import 'package:kader_app/screens/permanence_screen.dart';
 import 'package:kader_app/screens/pop_up_menu.dart';
@@ -105,6 +106,7 @@ class _MainAppState extends State<MainApp> {
       _locale = locale;
     });
   }
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -173,10 +175,8 @@ class _MainAppState extends State<MainApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
 
-
-
       // home: LaunchScreen(),
-      initialRoute: '/launch_screen',
+      initialRoute: '/login_webview_screen',
       routes: {
         //'/screen_name': Widget Function(BuildContext context);
         '/launch_screen': (context) => LaunchScreen(),
@@ -192,7 +192,7 @@ class _MainAppState extends State<MainApp> {
         '/PopUpMenu': (context) => PopUpMenu(),
         '/DemoApp': (context) => DemoApp(),
         '/login_screen': (Context) => LoginScreen(),
-
+        '/login_webview_screen': (context) => LoginWebViewScreen()
       },
     // title:'First app',
     // home: Scaffold(
