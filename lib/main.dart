@@ -18,6 +18,7 @@ import 'package:kader_app/screens/pop_up_menu.dart';
 import 'package:kader_app/screens/protocols_screen.dart';
 import 'package:kader_app/screens/share.dart';
 import 'package:kader_app/screens/shifts_screen.dart';
+import 'package:kader_app/utlies/app_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:async';
@@ -161,6 +162,11 @@ class _MainAppState extends State<MainApp> {
   }
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primaryColor: AppColors.MAIN_COLOR,
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+      ),
 
       debugShowCheckedModeBanner: false,
       locale: _locale,
@@ -176,7 +182,7 @@ class _MainAppState extends State<MainApp> {
       ],
 
       // home: LaunchScreen(),
-      initialRoute: '/login_webview_screen',
+      initialRoute: '/launch_screen',
       routes: {
         //'/screen_name': Widget Function(BuildContext context);
         '/launch_screen': (context) => LaunchScreen(),
