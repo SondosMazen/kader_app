@@ -33,13 +33,13 @@ dependencies:
   url_launcher: ^6.0.3
   http: ^0.13.1
   webview_flutter: ^2.0.4
-  shared_preferences: ^2.0.5
+  shared_preferences: ^2.0.4
   #share: ^0.6.5+4
   share: ^2.0.1
   firebase_analytics: ^5.0.2
   firebase_messaging: ^9.1.2
   flutter_local_notifications: ^5.0.0+1
-
+  image_slider: ^1.0.2
   #image_picker: ^0.7.2+1
 dev_dependencies:
   flutter_test:

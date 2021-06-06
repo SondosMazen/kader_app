@@ -17,31 +17,40 @@ import 'package:kader_app/screens/protocols_screen.dart';
 import 'package:kader_app/screens/shifts_screen.dart';
 import 'package:kader_app/utlies/app_colors.dart';
 import 'package:kader_app/utlies/size_config.dart';
+import 'package:image_slider/image_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
   ScrollController _scrollController = ScrollController();
   int currentIndex;
   Future<List<Result>> _resultListFuture;
   List<Result> _result = [];
-
+  // var stringList = _result.join("");
   // final List<Result> result;
   //
   // _HomeScreenState(this.result);
+  TabController tabController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _resultListFuture = ApiController().indexPost();
+    tabController = TabController(length: 5, vsync: this);
     // _resultListFuture = ApiBuilder.initialize.url(ApiSettings.API_POST)
     // .requestType(RequestType.GET)
     // .performListRequest<Result>();
   }
+
+   static List<String> links =
+  [
+    "", "", "", "", ""
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     _result = snapshot.data;
                     return ListView.builder(
+
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -97,36 +107,99 @@ class _HomeScreenState extends State<HomeScreen> {
                           currentIndex = index;
                           return Stack(
                             children: [
+                              // Container(
+                              //   height: SizeConfig.scaleHeight(215),
+                              //
+                              //   decoration: BoxDecoration(
+                              //    image:  DecorationImage(
+                              //   image: NetworkImage(
+                              //   _result[index].imageUrl),
+                              //   fit: BoxFit.cover,
+                              //   ),
+                              //     borderRadius:
+                              //     BorderRadiusDirectional.only(
+                              //       bottomEnd: Radius.circular(16),
+                              //       bottomStart: Radius.circular(16),
+                              //     ),
+                              //   ),
+                              //
+                              //   width: SizeConfig.scaleWidth(345),
+                              // ),
                               Container(
-                                height: SizeConfig.scaleHeight(215),
 
-                                decoration: BoxDecoration(
-                                 image:  DecorationImage(
-                                image: NetworkImage(
-                                _result[index].imageUrl),
-                                fit: BoxFit.cover,
-                                ),
-                                  borderRadius:
-                                  BorderRadiusDirectional.only(
-                                    bottomEnd: Radius.circular(16),
-                                    bottomStart: Radius.circular(16),
-                                  ),
-                                ),
+                            // margin: EdgeInsets.all(10),
+                                // decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //     border: Border.all(width: 2)),
+                                child: ImageSlider(
+                                  /// Shows the tab indicating circles at the bottom
+                                  showTabIndicator: true,
 
-                                width: SizeConfig.scaleWidth(345),
+                                  /// Cutomize tab's colors
+                                  tabIndicatorColor: Colors.white,
+
+                                  /// Customize selected tab's colors
+                                  tabIndicatorSelectedColor:
+                                      Colors.black,
+
+                                  /// Height of the indicators from the bottom
+                                 // tabIndicatorHeight: 16,
+                                  tabIndicatorHeight: 180,
+                                  /// Size of the tab indicator circles
+                                  tabIndicatorSize: 16,
+
+                                  /// tabController for walkthrough or other implementations
+                                  tabController: tabController,
+
+                                  /// Animation curves of sliding
+                                  curve: Curves.fastOutSlowIn,
+
+                                  /// Width of the slider
+                                  width: MediaQuery.of(context).size.width,
+
+                                  /// Height of the slider
+                                  height: 215,
+
+                                  /// If automatic sliding is required
+                                  autoSlide: false,
+
+                                  /// Time for automatic sliding
+                                  duration: new Duration(seconds: 6),
+
+                                  /// If manual sliding is required
+                                  allowManualSlide: true,
+
+
+                          /// Children in slideView to slide
+                                  children:
+                                  links.map((String link) {
+                                    return new ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                          // bottomLeft: Radius.circular(16),
+                                           //bottomRight: Radius.circular(16),
+                                        ),
+                                        child: Image.network(
+                                          _result[index].imageUrl,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: 215,
+                                          fit: BoxFit.fill,
+                                        ),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                               PositionedDirectional(
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadiusDirectional.only(
-                                      bottomEnd: Radius.circular(16),
-                                      bottomStart: Radius.circular(16),
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      // bottomEnd: Radius.circular(16),
+                                      // bottomStart: Radius.circular(16),
                                     ),
-                                    color: AppColors.MAIN_COLOR
-                                        .withOpacity(0.78),
+                                    color:
+                                        AppColors.MAIN_COLOR.withOpacity(0.78),
                                   ),
-                                  height: SizeConfig.scaleHeight(54),
+                                  height: SizeConfig.scaleHeight(30),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.only(
                                       top: SizeConfig.scaleHeight(5),
@@ -143,34 +216,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.w400,
                                                 fontSize:
-                                                SizeConfig.scaleTextFont(
-                                                    10),
+                                                    SizeConfig.scaleTextFont(
+                                                        10),
                                               ),
                                             ),
                                           ),
                                         ),
-                                        Expanded(
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                            children: [
-                                              for(int i = 0; i < _result.length; i++)
-                                                Container(
-                                                    height: 10, width: 10,
-                                                    margin: EdgeInsetsDirectional.only(end:SizeConfig.scaleWidth(5)),
-                                                    decoration: BoxDecoration(
-                                                        color: i == currentIndex ? Colors.white : Colors.grey,
-                                                        borderRadius: BorderRadius.circular(5),
-                                                    ),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
+                                        // Expanded(
+                                        //   child: Row(
+                                        //     mainAxisAlignment:
+                                        //     MainAxisAlignment.center,
+                                        //     crossAxisAlignment:
+                                        //     CrossAxisAlignment.center,
+                                        //     children: [
+                                        //       for(int i = 0; i < _result.length; i++)
+                                        //         Container(
+                                        //             height: 10, width: 10,
+                                        //             margin: EdgeInsetsDirectional.only(end:SizeConfig.scaleWidth(5)),
+                                        //             decoration: BoxDecoration(
+                                        //                 color: i == currentIndex ? Colors.white : Colors.grey,
+                                        //                 borderRadius: BorderRadius.circular(5),
+                                        //             ),
+                                        //         ),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                       ],
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                     ),
                                   ),
                                   alignment: AlignmentDirectional.center,
@@ -202,12 +275,11 @@ class _HomeScreenState extends State<HomeScreen> {
               AppStackHome(
                 // changeScreen: () => HomeBaseScreen.changeBaseWidget(
                 //     context, NewsScreen(), "News"),
-                changeScreen:() => Navigator.push(
+                changeScreen: () => Navigator.push(
                     context,
-                    MaterialPageRoute (
+                    MaterialPageRoute(
                       builder: (context) => NewsScreen(),
-                    )
-                ),
+                    )),
                 image: Image.asset(
                   'images/group_225.png',
                   color: AppColors.SHADOW_CONTAINER_COLOR,
@@ -236,7 +308,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     .translate("AdministrativeServices"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
-
               AppStackHome(
                 changeScreen: () => HomeBaseScreen.changeBaseWidget(
                     context, PermanencsScreen(), "Permanence"),
@@ -267,7 +338,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 text: AppLocalizations.of(context).translate("Protocols"),
                 color: AppColors.SHADOW_CONTAINER_COLOR,
               ),
-
               AppStackHome(
                 changeScreen: () => HomeBaseScreen.changeBaseWidget(
                     context, AdditionalServicesScreen(), "AdditionalServices"),

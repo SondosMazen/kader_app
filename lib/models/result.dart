@@ -32,7 +32,7 @@ class Result {
         imageUrl = ApiSettings.DEFAULT_IMG;
       }
       else{
-        imageUrl = json['image_url'].replaceAll(new RegExp('http'), 'https');
+        imageUrl = json['image_url'].replaceAll(RegExp('http'), 'https');
       }
     }
   }
@@ -41,7 +41,7 @@ class Result {
     return list.map((i) => Result.fromJson(i)).toList();
   }
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['post_date'] = this.postDate;
     data['guid'] = this.guid;

@@ -17,9 +17,7 @@ class _LaunchScreenState extends State<LaunchScreen> {
     UserPreferences.instance;
     Future.delayed(Duration(seconds: 3), () {
       // Navigator.pushReplacementNamed(context, '/login_screen');
-      //Navigator.pushReplacementNamed(context, '/home_screen');
-      Navigator.pushReplacementNamed(context, '/login_webview_screen');
-
+      Navigator.pushReplacementNamed(context, '/home_screen');
     });
   }
   @override

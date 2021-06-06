@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kader_app/screens/home_base.dart';
 import 'package:kader_app/screens/home_screen.dart';
+import 'package:kader_app/screens/search_page.dart';
 import 'package:kader_app/utlies/app_colors.dart';
 import 'package:kader_app/utlies/size_config.dart';
 
@@ -38,7 +39,8 @@ class AppBarScreen extends StatelessWidget implements PreferredSizeWidget {
               Expanded(
                 child: IconButton(
                   icon: Icon(Icons.add_alert),
-                  onPressed: () {},
+                  onPressed: () {
+                  },
                 ),
               ),
             ],

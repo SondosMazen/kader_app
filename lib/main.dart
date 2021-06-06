@@ -3,12 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kader_app/locale/AppLocalizations.dart';
+import 'package:kader_app/prefs/user_perferences.dart';
 import 'package:kader_app/screens/additional_services%20_screen.dart';
 import 'package:kader_app/screens/administrative_services_screen.dart';
 import 'package:kader_app/screens/copy_details_news.dart';
 import 'package:kader_app/screens/custody_screen.dart';
 import 'package:kader_app/screens/details_of_the_news_screen.dart';
 import 'package:kader_app/screens/home_base.dart';
+import 'package:kader_app/screens/image_slider.dart';
 import 'package:kader_app/screens/launch_screen.dart';
 import 'package:kader_app/screens/login_screen.dart';
 import 'package:kader_app/screens/login_webview_screen.dart';
@@ -84,8 +86,8 @@ Future<void> main() async {
   );
 
 
-  // WidgetsFlutterBinding.ensureInitialized();
-  // UserPreferences.instance;
+  WidgetsFlutterBinding.ensureInitialized();
+  UserPreferences.instance;
   runApp(MainApp());
 }
 class MainApp extends StatefulWidget {
@@ -182,7 +184,7 @@ class _MainAppState extends State<MainApp> {
       ],
 
       // home: LaunchScreen(),
-      initialRoute: '/launch_screen',
+      initialRoute: '/home_screen',
       routes: {
         //'/screen_name': Widget Function(BuildContext context);
         '/launch_screen': (context) => LaunchScreen(),
@@ -198,7 +200,9 @@ class _MainAppState extends State<MainApp> {
         '/PopUpMenu': (context) => PopUpMenu(),
         '/DemoApp': (context) => DemoApp(),
         '/login_screen': (Context) => LoginScreen(),
-        '/login_webview_screen': (context) => LoginWebViewScreen()
+        '/login_webview_screen': (context) => LoginWebViewScreen(),
+        '/image_slider': (context) => MyHomePage()
+
       },
     // title:'First app',
     // home: Scaffold(
