@@ -98,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen>
                   } else {
                     _result = snapshot.data;
                     return ListView.builder(
-
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
@@ -144,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen>
 
                                   /// Height of the indicators from the bottom
                                  // tabIndicatorHeight: 16,
-                                  tabIndicatorHeight: 180,
+                                  tabIndicatorHeight: 40,
                                   /// Size of the tab indicator circles
                                   tabIndicatorSize: 16,
 
@@ -199,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     color:
                                         AppColors.MAIN_COLOR.withOpacity(0.78),
                                   ),
-                                  height: SizeConfig.scaleHeight(30),
+                                  height: SizeConfig.scaleHeight(40),
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.only(
                                       top: SizeConfig.scaleHeight(5),

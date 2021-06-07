@@ -14,12 +14,14 @@ import 'package:share/share.dart';
 import 'package:http/http.dart' as http;
 import 'details_of_the_news_screen.dart';
 import 'package:kader_app/screens/search_page.dart';
+
 class NewsScreen extends StatefulWidget {
+  List<Result> results;
+
   @override
   _NewsScreenState createState() => _NewsScreenState();
 }
 
-List<Result> _results;
 class _NewsScreenState extends State<NewsScreen> {
   int currentIndex;
   bool _hasMore;
@@ -28,7 +30,7 @@ class _NewsScreenState extends State<NewsScreen> {
   bool _loading;
   final int _defaultPhotosPerPageCount = 5;
   List<Result> _results = [];
-  List<Result> _resultsDisplay = [];
+  List<Result> _searchResult = [];
 
   final int _nextPageThreshold = 5;
   final globalKey = new GlobalKey<ScaffoldState>();
@@ -90,18 +92,21 @@ class _NewsScreenState extends State<NewsScreen> {
           // SearchListExample(),
           TextField(
             onTap: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage(results: _results)));
+            //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage(results: _results)));
 
             },
             controller: _searchTextController,
-            onChanged: (text) {
+            onChanged: (val) {
               String searchText = _searchTextController.text;
               print(searchText);
               setState(() {
 
-                String foundValue;
-               // _resultsDisplay = _results.where((element) => element.postTitle.contains(val)).toList();
+                _searchResult = widget.results
+                    .where((element) => element.postTitle.contains(val))
+                    .toList();
 
+               // _resultsDisplay = _results.where((element) => element.postTitle.contains(val)).toList();
+               // String foundValue;
               //   var result = _results.where((row) =>
               //       (row("text").contains(searchText)
               //           ? foundValue = row["text"]
@@ -160,7 +165,8 @@ class _NewsScreenState extends State<NewsScreen> {
             child: getBody(),
           ),
         ]),
-      ),
+          ),
+
     );
   }
 

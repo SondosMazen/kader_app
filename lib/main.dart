@@ -18,6 +18,7 @@ import 'package:kader_app/screens/news_screen.dart';
 import 'package:kader_app/screens/permanence_screen.dart';
 import 'package:kader_app/screens/pop_up_menu.dart';
 import 'package:kader_app/screens/protocols_screen.dart';
+import 'package:kader_app/screens/search_page.dart';
 import 'package:kader_app/screens/share.dart';
 import 'package:kader_app/screens/shifts_screen.dart';
 import 'package:kader_app/utlies/app_colors.dart';
@@ -184,7 +185,7 @@ class _MainAppState extends State<MainApp> {
       ],
 
       // home: LaunchScreen(),
-      initialRoute: '/home_screen',
+      initialRoute: '/launch_screen',
       routes: {
         //'/screen_name': Widget Function(BuildContext context);
         '/launch_screen': (context) => LaunchScreen(),
@@ -201,7 +202,8 @@ class _MainAppState extends State<MainApp> {
         '/DemoApp': (context) => DemoApp(),
         '/login_screen': (Context) => LoginScreen(),
         '/login_webview_screen': (context) => LoginWebViewScreen(),
-        '/image_slider': (context) => MyHomePage()
+        '/image_slider': (context) => MyHomePage(),
+        '/search_page': (context) => SearchPage()
 
       },
     // title:'First app',
