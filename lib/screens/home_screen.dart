@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   } else {
                     _result = snapshot.data;
+
                     return ListView.builder(
                         controller: _scrollController,
                         scrollDirection: Axis.horizontal,
@@ -126,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen>
                               // ),
                               Container(
 
-                            // margin: EdgeInsets.all(10),
+                                // margin: EdgeInsets.all(10),
                                 // decoration: BoxDecoration(
                                 //     borderRadius: BorderRadius.circular(10),
                                 //     border: Border.all(width: 2)),

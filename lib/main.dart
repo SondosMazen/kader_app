@@ -204,7 +204,6 @@ class _MainAppState extends State<MainApp> {
         '/login_webview_screen': (context) => LoginWebViewScreen(),
         '/image_slider': (context) => MyHomePage(),
         '/search_page': (context) => SearchPage()
-
       },
     // title:'First app',
     // home: Scaffold(
