@@ -47,10 +47,7 @@ class _HomeScreenState extends State<HomeScreen>
     // .performListRequest<Result>();
   }
 
-   static List<String> links =
-  [
-    "", "", "", "", ""
-  ];
+   static List<String> links= [];
 
   @override
   Widget build(BuildContext context) {
@@ -97,164 +94,224 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   } else {
                     _result = snapshot.data;
+                    _result.forEach((element) {
+                      links.add(element.imageUrl);
+                    });
 
-                    return ListView.builder(
-                        controller: _scrollController,
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: _result.length,
-                        itemBuilder: (context, index) {
-                          currentIndex = index;
-                          return Stack(
-                            children: [
-                              // Container(
-                              //   height: SizeConfig.scaleHeight(215),
-                              //
-                              //   decoration: BoxDecoration(
-                              //    image:  DecorationImage(
-                              //   image: NetworkImage(
-                              //   _result[index].imageUrl),
-                              //   fit: BoxFit.cover,
-                              //   ),
-                              //     borderRadius:
-                              //     BorderRadiusDirectional.only(
-                              //       bottomEnd: Radius.circular(16),
-                              //       bottomStart: Radius.circular(16),
-                              //     ),
-                              //   ),
-                              //
-                              //   width: SizeConfig.scaleWidth(345),
-                              // ),
-                              Container(
+                    return ImageSlider(
+                      /// Shows the tab indicating circles at the bottom
+                      showTabIndicator: true,
 
-                                // margin: EdgeInsets.all(10),
-                                // decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //     border: Border.all(width: 2)),
-                                child: ImageSlider(
-                                  /// Shows the tab indicating circles at the bottom
-                                  showTabIndicator: true,
+                      /// Cutomize tab's colors
+                      tabIndicatorColor: Colors.white,
 
-                                  /// Cutomize tab's colors
-                                  tabIndicatorColor: Colors.white,
-
-                                  /// Customize selected tab's colors
-                                  tabIndicatorSelectedColor:
-                                      Colors.black,
-
-                                  /// Height of the indicators from the bottom
-                                 // tabIndicatorHeight: 16,
-                                  tabIndicatorHeight: 40,
-                                  /// Size of the tab indicator circles
-                                  tabIndicatorSize: 16,
-
-                                  /// tabController for walkthrough or other implementations
-                                  tabController: tabController,
-
-                                  /// Animation curves of sliding
-                                  curve: Curves.fastOutSlowIn,
-
-                                  /// Width of the slider
-                                  width: MediaQuery.of(context).size.width,
-
-                                  /// Height of the slider
-                                  height: 215,
-
-                                  /// If automatic sliding is required
-                                  autoSlide: false,
-
-                                  /// Time for automatic sliding
-                                  duration: new Duration(seconds: 6),
-
-                                  /// If manual sliding is required
-                                  allowManualSlide: true,
+                      /// Customize selected tab's colors
+                      tabIndicatorSelectedColor:AppColors.MAIN_COLOR,
 
 
-                          /// Children in slideView to slide
-                                  children:
-                                  links.map((String link) {
-                                    return new ClipRRect(
-                                        borderRadius: BorderRadius.only(
-                                          // bottomLeft: Radius.circular(16),
-                                           //bottomRight: Radius.circular(16),
-                                        ),
-                                        child: Image.network(
-                                          _result[index].imageUrl,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          height: 215,
-                                          fit: BoxFit.fill,
-                                        ),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                              PositionedDirectional(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadiusDirectional.only(
-                                      // bottomEnd: Radius.circular(16),
-                                      // bottomStart: Radius.circular(16),
-                                    ),
-                                    color:
-                                        AppColors.MAIN_COLOR.withOpacity(0.78),
-                                  ),
-                                  height: SizeConfig.scaleHeight(40),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.only(
-                                      top: SizeConfig.scaleHeight(5),
-                                      start: SizeConfig.scaleWidth(19),
-                                      end: SizeConfig.scaleWidth(25),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          child: Center(
-                                            child: Text(
-                                              _result[index].postTitle,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w400,
-                                                fontSize:
-                                                    SizeConfig.scaleTextFont(
-                                                        10),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        // Expanded(
-                                        //   child: Row(
-                                        //     mainAxisAlignment:
-                                        //     MainAxisAlignment.center,
-                                        //     crossAxisAlignment:
-                                        //     CrossAxisAlignment.center,
-                                        //     children: [
-                                        //       for(int i = 0; i < _result.length; i++)
-                                        //         Container(
-                                        //             height: 10, width: 10,
-                                        //             margin: EdgeInsetsDirectional.only(end:SizeConfig.scaleWidth(5)),
-                                        //             decoration: BoxDecoration(
-                                        //                 color: i == currentIndex ? Colors.white : Colors.grey,
-                                        //                 borderRadius: BorderRadius.circular(5),
-                                        //             ),
-                                        //         ),
-                                        //     ],
-                                        //   ),
-                                        // ),
-                                      ],
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                    ),
-                                  ),
-                                  alignment: AlignmentDirectional.center,
-                                ),
-                                bottom: SizeConfig.scaleHeight(0),
-                                start: SizeConfig.scaleWidth(0),
-                                end: SizeConfig.scaleWidth(0),
-                              ),
-                            ],
-                          );
-                        });
+                      /// Height of the indicators from the bottom
+                      // tabIndicatorHeight: 16,
+                      tabIndicatorHeight: 40,
+                      /// Size of the tab indicator circles
+                      tabIndicatorSize: 10,
+
+                      /// tabController for walkthrough or other implementations
+                      tabController: tabController,
+
+                      /// Animation curves of sliding
+                      curve: Curves.fastOutSlowIn,
+
+                      /// Width of the slider
+                      width: MediaQuery.of(context).size.width,
+
+                      /// Height of the slider
+                      height: 215,
+
+                      /// If automatic sliding is required
+                      autoSlide: true,
+
+                      /// Time for automatic sliding
+                      duration: new Duration(seconds: 6),
+
+                      /// If manual sliding is required
+                      allowManualSlide: true,
+
+
+                      /// Children in slideView to slide
+                      children:
+                      links.map((String link) {
+                        return new ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            // bottomLeft: Radius.circular(16),
+                            //bottomRight: Radius.circular(16),
+                          ),
+                          child: Image.network(
+                            link,
+                            width:
+                            MediaQuery.of(context).size.width,
+                            height: 215,
+                            fit: BoxFit.fill,
+                          ),
+                        );
+                      }).toList(),
+                    );
+                      // ListView.builder(
+                      //   controller: _scrollController,
+                      //   scrollDirection: Axis.horizontal,
+                      //   shrinkWrap: true,
+                      //   itemCount: _result.length,
+                      //   itemBuilder: (context, index) {
+                      //     currentIndex = index;
+                      //     return Stack(
+                      //       children: [
+                      //         // Container(
+                      //         //   height: SizeConfig.scaleHeight(215),
+                      //         //
+                      //         //   decoration: BoxDecoration(
+                      //         //    image:  DecorationImage(
+                      //         //   image: NetworkImage(
+                      //         //   _result[index].imageUrl),
+                      //         //   fit: BoxFit.cover,
+                      //         //   ),
+                      //         //     borderRadius:
+                      //         //     BorderRadiusDirectional.only(
+                      //         //       bottomEnd: Radius.circular(16),
+                      //         //       bottomStart: Radius.circular(16),
+                      //         //     ),
+                      //         //   ),
+                      //         //
+                      //         //   width: SizeConfig.scaleWidth(345),
+                      //         // ),
+                      //         Container(
+                      //
+                      //           // margin: EdgeInsets.all(10),
+                      //           // decoration: BoxDecoration(
+                      //           //     borderRadius: BorderRadius.circular(10),
+                      //           //     border: Border.all(width: 2)),
+                      //           child: ImageSlider(
+                      //             /// Shows the tab indicating circles at the bottom
+                      //             showTabIndicator: true,
+                      //
+                      //             /// Cutomize tab's colors
+                      //             tabIndicatorColor: Colors.white,
+                      //
+                      //             /// Customize selected tab's colors
+                      //             tabIndicatorSelectedColor:
+                      //                 Colors.black,
+                      //
+                      //             /// Height of the indicators from the bottom
+                      //            // tabIndicatorHeight: 16,
+                      //             tabIndicatorHeight: 40,
+                      //             /// Size of the tab indicator circles
+                      //             tabIndicatorSize: 16,
+                      //
+                      //             /// tabController for walkthrough or other implementations
+                      //             tabController: tabController,
+                      //
+                      //             /// Animation curves of sliding
+                      //             curve: Curves.fastOutSlowIn,
+                      //
+                      //             /// Width of the slider
+                      //             width: MediaQuery.of(context).size.width,
+                      //
+                      //             /// Height of the slider
+                      //             height: 215,
+                      //
+                      //             /// If automatic sliding is required
+                      //             autoSlide: false,
+                      //
+                      //             /// Time for automatic sliding
+                      //             duration: new Duration(seconds: 6),
+                      //
+                      //             /// If manual sliding is required
+                      //             allowManualSlide: true,
+                      //
+                      //
+                      //     /// Children in slideView to slide
+                      //             children:
+                      //             links.map((String link) {
+                      //               return new ClipRRect(
+                      //                   borderRadius: BorderRadius.only(
+                      //                     // bottomLeft: Radius.circular(16),
+                      //                      //bottomRight: Radius.circular(16),
+                      //                   ),
+                      //                   child: Image.network(
+                      //                     _result[index].imageUrl,
+                      //                     width:
+                      //                         MediaQuery.of(context).size.width,
+                      //                     height: 215,
+                      //                     fit: BoxFit.fill,
+                      //                   ),
+                      //               );
+                      //             }).toList(),
+                      //           ),
+                      //         ),
+                      //         PositionedDirectional(
+                      //           child: Container(
+                      //             decoration: BoxDecoration(
+                      //               borderRadius: BorderRadiusDirectional.only(
+                      //                 // bottomEnd: Radius.circular(16),
+                      //                 // bottomStart: Radius.circular(16),
+                      //               ),
+                      //               color:
+                      //                   AppColors.MAIN_COLOR.withOpacity(0.78),
+                      //             ),
+                      //             height: SizeConfig.scaleHeight(40),
+                      //             child: Padding(
+                      //               padding: EdgeInsetsDirectional.only(
+                      //                 top: SizeConfig.scaleHeight(5),
+                      //                 start: SizeConfig.scaleWidth(19),
+                      //                 end: SizeConfig.scaleWidth(25),
+                      //               ),
+                      //               child: Column(
+                      //                 children: [
+                      //                   Expanded(
+                      //                     child: Center(
+                      //                       child: Text(
+                      //                         _result[index].postTitle,
+                      //                         style: TextStyle(
+                      //                           color: Colors.white,
+                      //                           fontWeight: FontWeight.w400,
+                      //                           fontSize:
+                      //                               SizeConfig.scaleTextFont(
+                      //                                   10),
+                      //                         ),
+                      //                       ),
+                      //                     ),
+                      //                   ),
+                      //                   // Expanded(
+                      //                   //   child: Row(
+                      //                   //     mainAxisAlignment:
+                      //                   //     MainAxisAlignment.center,
+                      //                   //     crossAxisAlignment:
+                      //                   //     CrossAxisAlignment.center,
+                      //                   //     children: [
+                      //                   //       for(int i = 0; i < _result.length; i++)
+                      //                   //         Container(
+                      //                   //             height: 10, width: 10,
+                      //                   //             margin: EdgeInsetsDirectional.only(end:SizeConfig.scaleWidth(5)),
+                      //                   //             decoration: BoxDecoration(
+                      //                   //                 color: i == currentIndex ? Colors.white : Colors.grey,
+                      //                   //                 borderRadius: BorderRadius.circular(5),
+                      //                   //             ),
+                      //                   //         ),
+                      //                   //     ],
+                      //                   //   ),
+                      //                   // ),
+                      //                 ],
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.center,
+                      //               ),
+                      //             ),
+                      //             alignment: AlignmentDirectional.center,
+                      //           ),
+                      //           bottom: SizeConfig.scaleHeight(0),
+                      //           start: SizeConfig.scaleWidth(0),
+                      //           end: SizeConfig.scaleWidth(0),
+                      //         ),
+                      //       ],
+                      //     );
+                      //   });
                   }
                 }
               },
