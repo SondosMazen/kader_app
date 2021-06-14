@@ -41,6 +41,7 @@ class _NewsScreenState extends State<NewsScreen> {
 
   //final TextEditingController _controller = TextEditingController();
   TextEditingController _searchTextController;
+  var _controller = TextEditingController();
 
   @override
   void dispose() {
@@ -85,79 +86,7 @@ class _NewsScreenState extends State<NewsScreen> {
           color: AppColors.DOTS_HORIZANTAL_COLOR,
         ),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // SizedBox(height: SizeConfig.scaleHeight(16),),
-          // AppSearchTextFeild(
-          //
-          // ),
-          // SearchListExample(),
-          TextField(
-            onTap: (){
-            //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage(results: _results)));
-
-            },
-            controller: _searchTextController,
-            onChanged: (val) {
-              String searchText = _searchTextController.text;
-              print(searchText);
-              setState(() {
-
-                _searchResult = widget.results
-                    .where((element) => element.postTitle.contains(val))
-                    .toList();
-
-               // _resultsDisplay = _results.where((element) => element.postTitle.contains(val)).toList();
-               // String foundValue;
-              //   var result = _results.where((row) =>
-              //       (row("text").contains(searchText)
-              //           ? foundValue = row["text"]
-              //           : foundValue = ""));
-              //   if (_results.length >= 1) {
-              //     print("$foundValue");
-              //   } else {
-              //     print("not $foundValue");
-              //   }
-               });
-            },
-            style: TextStyle(
-              fontSize: SizeConfig.scaleTextFont(16),
-              fontFamily: 'Tajawal',
-              fontWeight: FontWeight.w500,
-              color: AppColors.HINT_TEXTFEILD_COLOR,
-            ),
-            decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(26),
-              ),
-              contentPadding: EdgeInsetsDirectional.only(
-                start: SizeConfig.scaleWidth(20),
-              ),
-              suffixIcon: Icon(
-                Icons.search,
-                color: AppColors.HINT_TEXTFEILD_COLOR,
-              ),
-              // prefixIcon: Icon(
-              //   Icons.search,
-              //   color: AppColors.HINT_TEXTFEILD_COLOR,
-              // ),
-              hintText: AppLocalizations.of(context).translate("search"),
-              // prefixText: ' ',
-              hintStyle: TextStyle(
-                fontSize: SizeConfig.scaleTextFont(16),
-                fontFamily: 'Tajawal',
-                color: AppColors.HINT_TEXTFEILD_COLOR,
-                fontWeight: FontWeight.w500,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(26),
-                borderSide: BorderSide(
-                  color: AppColors.HINT_TEXTFEILD_COLOR,
-                  width: SizeConfig.scaleWidth(1),
-                ),
-              ),
-              //getBorder(AppColors.HINT_TEXTFEILD_COLOR),
-              focusedBorder: getBorder(),
-            ),
-          ),
+          search(),
           SizedBox(
             height: SizeConfig.scaleHeight(16),
           ),
@@ -309,7 +238,78 @@ class _NewsScreenState extends State<NewsScreen> {
     }
     return Container();
   }
+  /////////////////////////////////////////////////////////////////////
+  Widget search() {
+    return Container(
+      padding: EdgeInsetsDirectional.only(
+        start: SizeConfig.scaleWidth(5),
+        end: SizeConfig.scaleWidth(5),
+      ),
+      height: SizeConfig.scaleHeight(40),
+      child: TextField(
+        controller: _controller,
+        onChanged:(text){
+          if(text.isEmpty){
+            setState(() {
+              _results = [];
+              _error = false;
+              _loading = true;
+              fetchResults();
+            });}},
+        style: TextStyle(
+          fontSize: SizeConfig.scaleTextFont(16),
+          fontFamily: 'Tajawal',
+          fontWeight: FontWeight.w500,
+          color: AppColors.HINT_TEXTFEILD_COLOR,
+        ),
+        decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(26),
+          ),
+          contentPadding: EdgeInsetsDirectional.only(
+            start: SizeConfig.scaleWidth(20),
+          ),
+          suffixIcon: IconButton(
 
+            onPressed:(){
+              FocusScope.of(context).unfocus();
+              setState(() {
+                _results = [];
+                _error = false;
+                _loading = true;
+                fetchResults(_controller.text);
+              });
+
+            },
+            icon: Icon(Icons.search),
+            color: Colors.black,
+          ),
+          // prefixIcon: Icon(
+          //   Icons.search,
+          //   color: AppColors.HINT_TEXTFEILD_COLOR,
+          // ),
+          hintText: 'بحث',
+          // prefixText: ' ',
+          hintStyle: TextStyle(
+            fontSize: SizeConfig.scaleTextFont(16),
+            fontFamily: 'Tajawal',
+            color: AppColors.HINT_TEXTFEILD_COLOR,
+            fontWeight: FontWeight.w500,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(26),
+            borderSide: BorderSide(
+              color: AppColors.HINT_TEXTFEILD_COLOR,
+              width: SizeConfig.scaleWidth(1),
+            ),
+          ),
+          //getBorder(AppColors.HINT_TEXTFEILD_COLOR),
+          focusedBorder: getBorder(),
+        ),
+      ),
+    );
+  }
+  ////////////////////////////////////////////////////////////////////
   Future<void> _getData() async {
     setState(() {
       _pageNumber = 0;
@@ -318,12 +318,24 @@ class _NewsScreenState extends State<NewsScreen> {
     });
   }
 
-  Future<void> fetchResults() async {
+  Future<void> fetchResults([String text]) async {
+    String search=text??'';
+    String url;
+
     try {
+      if(search.isNotEmpty){
+        url=ApiSettings.API_POST + "&search=$search";
+      }
+      else{
+        url=ApiSettings.API_POST + "&page=$_pageNumber";
+      }
+
       final response = await http.get(
-          Uri.parse("https://www.moh.gov.ps/test/test.php?page=$_pageNumber"));
-      print("https://www.moh.gov.ps/test/test.php?page=$_pageNumber");
+          Uri.parse(url));
+      print(url);
       // List<Results> fetchedPhotos = Results.parseList(jsonDecode(response.body));
+
+
       List<Result> fetchedPhotos =
           Autogenerated.fromJson(jsonDecode(response.body)).result;
       // fetchedPhotos.forEach((element) {

@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen>
                     );
                   } else {
                     _result = snapshot.data;
+                    links= [];
                     _result.forEach((element) {
                       links.add(element.imageUrl);
                     });
