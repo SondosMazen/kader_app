@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -89,6 +91,9 @@ Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
   UserPreferences.instance;
+
+  HttpOverrides.global = new MyHttpOverrides();
+
   runApp(MainApp());
 }
 class MainApp extends StatefulWidget {
@@ -221,5 +226,13 @@ class _MainAppState extends State<MainApp> {
     // ),
     // ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
   }
 }

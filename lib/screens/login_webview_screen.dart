@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:kader_app/api/api_settings.dart';
 import 'package:kader_app/models/SSO_Info.dart';
 import 'package:kader_app/models/SSO_Token.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +21,9 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
 
   String client_id = "KADER_APP_MOH" ;
   String client_secret= "_432f10daa373752fc6241adfe952fb8acb5235abcf";
+
+  String _fcm_token;
+  SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +69,8 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
     //   content: Text("Sending Message"),
     // ));
 
+    prefs = await SharedPreferences.getInstance();
+
     showLoaderDialog(context);
 
     final response = await http.post(
@@ -84,6 +92,8 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       SSO_Token sso_token =  SSO_Token.fromJson(jsonDecode(response.body));
+      prefs.setString('token', sso_token.accessToken);
+      // UserPreferences.instance.saveToken(sso_token.accessToken);
       print(sso_token.accessToken);
 
       final verify_response = await http.post(
@@ -101,13 +111,37 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
 
       print("hello"+verify_response.body);
 
-      if (response.statusCode == 200) {
+      if (verify_response.statusCode == 200) {
         // If the server did return a 201 CREATED response,
         // then parse the JSON.
-        SSO_Info sso_info =  SSO_Info.fromJson(jsonDecode(response.body));
+        SSO_Info sso_info =  SSO_Info.fromJson(jsonDecode(verify_response.body));
         print(sso_info.status);
+
         if(sso_info.status =="success"){
-          Navigator.pushReplacementNamed(context, '/home_screen');
+
+          prefs.setBool("isLogged", true);
+          prefs.setString("user_id", sso_info.userId);
+          prefs.setString("account_type", sso_info.accountType);
+          prefs.setString("name", sso_info.name);
+          prefs.setString("mobile", sso_info.mobile);
+          prefs.setString("ministry_cd", sso_info.ministryCd);
+          prefs.setString("sso_info", verify_response.body);
+
+
+          // UserPreferences.instance.save_sso_info(verify_response.body);
+          // UserPreferences.instance.save_user(sso_info);
+
+          FirebaseMessaging.instance.getToken().then(setFcmToken);
+          Stream<String> _tokenStream = FirebaseMessaging.instance.onTokenRefresh;
+          _tokenStream.listen(setFcmToken);
+
+
+            // print(prefs.getString('fcm_token') ?? '');
+            // print(prefs.getString('ministry_cd') ?? '');
+
+
+
+
         }
       } else {
         // If the server did not return a 201 CREATED response,
@@ -123,6 +157,49 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
       throw Exception('Failed to login');
     }
   }
+  ///////////////////////////////////////////
+  void setFcmToken(String token) {
+    print('FCM Token: $token');
+    setState(() {
+      _fcm_token = token;
+    });
+
+    prefs.setString("fcm_token", _fcm_token);
+    insert_login(_fcm_token);
+  }
+  //////////////////////////////////////////////
+  Future<void> insert_login(String token) async {
+    https://apps.moh.gov.ps/kader/index.php/UsersAPI/INSERT_USERS_AUTHENTICATION
+    http://apps.moh.gov.ps/kader/index.php/UsersAPI/INSERT_USERS_AUTHENTICATION
+    print("hello" + ApiSettings.AUTH_Login);
+    final insert_response = await http.post(
+      Uri.parse(ApiSettings.AUTH_Login),
+      headers: <String, String>{
+        'P-ID': prefs.getString('user_id') ?? '',
+        'P-TOKEN': prefs.getString('token') ?? '',
+        'FCM-TOKEN': _fcm_token,
+      },
+      // body: //jsonEncode(
+      // <String, String>{
+      //   'code': code,
+      //   'client_id': client_id,
+      //   'client_secret': client_secret,
+      // },//),
+    );
+
+    print("hello" + insert_response.body);
+    Navigator.pushReplacementNamed(context, '/home_screen');
+
+    if (insert_response.statusCode == 200) {
+      Navigator.pushReplacementNamed(context, '/home_screen');
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      // SSO_Token sso_token = SSO_Token.fromJson(jsonDecode(response.body));
+      // UserPreferences.instance.saveToken(sso_token.accessToken);
+      // print(sso_token.accessToken);
+    }
+  }
+
   ///////////////////////////////////////////
   showLoaderDialog(BuildContext context){
     AlertDialog alert=AlertDialog(

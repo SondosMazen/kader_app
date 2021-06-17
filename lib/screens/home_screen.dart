@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:kader_app/api/api_builder.dart';
 import 'package:kader_app/api/api_controller.dart';
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen>
     // .performListRequest<Result>();
   }
 
-   static List<String> links= [];
+   static List<Result> links= [];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen>
                     _result = snapshot.data;
                     links= [];
                     _result.forEach((element) {
-                      links.add(element.imageUrl);
+                      links.add(element);
                     });
 
                     return ImageSlider(
@@ -140,19 +142,77 @@ class _HomeScreenState extends State<HomeScreen>
 
                       /// Children in slideView to slide
                       children:
-                      links.map((String link) {
-                        return new ClipRRect(
+                      links.map((Result link) {
+                        return new GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetailsNewsScreen(news: link),
+                                  ));
+                            },
+                            child:Stack(
+                        children: [
+                        ClipRRect(
                           borderRadius: BorderRadius.only(
                             // bottomLeft: Radius.circular(16),
                             //bottomRight: Radius.circular(16),
                           ),
                           child: Image.network(
-                            link,
+                            link.imageUrl,
                             width:
                             MediaQuery.of(context).size.width,
                             height: 215,
                             fit: BoxFit.fill,
                           ),
+                        ),
+                        PositionedDirectional(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadiusDirectional.only(
+                                        // bottomEnd: Radius.circular(16),
+                                        // bottomStart: Radius.circular(16),
+                                      ),
+                                      color:
+                                          AppColors.MAIN_COLOR.withOpacity(0.78),
+                                    ),
+                                    height: SizeConfig.scaleHeight(40),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.only(
+                                        top: SizeConfig.scaleHeight(5),
+                                        start: SizeConfig.scaleWidth(19),
+                                        end: SizeConfig.scaleWidth(25),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: Center(
+                                              child: Text(
+                                                link.postTitle,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize:
+                                                      SizeConfig.scaleTextFont(
+                                                          10),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                      ),
+                                    ),
+                                    alignment: AlignmentDirectional.center,
+                                  ),
+                                  bottom: SizeConfig.scaleHeight(0),
+                                  start: SizeConfig.scaleWidth(0),
+                                  end: SizeConfig.scaleWidth(0),
+                                ),
+                              ],
+                            ),
                         );
                       }).toList(),
                     );
