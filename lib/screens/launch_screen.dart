@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kader_app/locale/AppLocalizations.dart';
 import 'package:kader_app/prefs/user_perferences.dart';
 import 'package:kader_app/utlies/size_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LaunchScreen extends StatefulWidget {
   @override
@@ -10,14 +11,28 @@ class LaunchScreen extends StatefulWidget {
 }
 /////xxxx
 class _LaunchScreenState extends State<LaunchScreen> {
+  SharedPreferences prefs;
+  bool isLogged;
+
+  Future<Null> getSharedPrefs() async {
+    prefs = await SharedPreferences.getInstance();
+    isLogged = prefs.getBool("isLogged")?? false;
+
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     UserPreferences.instance;
+    getSharedPrefs();
     Future.delayed(Duration(seconds: 3), () {
-      // Navigator.pushReplacementNamed(context, '/login_webview_screen');
-      Navigator.pushReplacementNamed(context, '/home_screen');
+      if(isLogged) {
+        Navigator.pushReplacementNamed(context, '/home_screen');
+      }
+      else{
+        Navigator.pushReplacementNamed(context, '/login_webview_screen');
+      }
     });
   }
   @override

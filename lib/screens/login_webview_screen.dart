@@ -188,10 +188,21 @@ class _LoginWebViewScreenState extends State<LoginWebViewScreen> {
     );
 
     print("hello" + insert_response.body);
-    Navigator.pushReplacementNamed(context, '/home_screen');
+    //Navigator.pushReplacementNamed(context, '/home_screen');
 
     if (insert_response.statusCode == 200) {
-      Navigator.pushReplacementNamed(context, '/home_screen');
+
+      print(jsonDecode(insert_response.body)['LOGIN_RESULT']);
+      if(jsonDecode(insert_response.body)['LOGIN_RESULT'] == '1'){
+        Navigator.pushReplacementNamed(context, '/home_screen');
+      }
+      else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("حدث خطأ .."),
+        ));
+
+      }
+
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
       // SSO_Token sso_token = SSO_Token.fromJson(jsonDecode(response.body));
